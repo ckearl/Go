@@ -1,21 +1,13 @@
-// src/components/GameControls/GameControls.js
+// components/GameControls/GameControls.js
 
 import React from 'react';
 import {View, Text, Button} from 'react-native';
+import styles from './style';
 
 const GameControls = ({resetGame}) => {
   return (
     <View>
-      <Text
-        style={{
-          textAlign: 'center',
-          fontSize: 30,
-          fontWeight: 'bold',
-          marginTop: 80,
-          marginBottom: 20,
-        }}>
-        Baduk
-      </Text>
+      <Text style={styles.controls}>Let's Play Go!</Text>
       <Button title="Reset Game" onPress={resetGame} />
     </View>
   );

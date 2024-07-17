@@ -1,4 +1,4 @@
-// src/components/Board/Board.js
+// components/Board/Board.js
 
 import React from 'react';
 import {Image, Text, View} from 'react-native';

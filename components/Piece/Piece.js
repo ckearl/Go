@@ -1,4 +1,4 @@
-// /src/components/Piece/Piece.js
+// components/Piece/Piece.js
 
 import React, {useRef, useEffect} from 'react';
 import {Animated, PanResponder, Dimensions} from 'react-native';

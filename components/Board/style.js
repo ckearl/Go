@@ -1,4 +1,5 @@
-// src/components/Board/style.js
+// components/Board/style.js
+
 import {StyleSheet} from 'react-native';
 
 const createStyles = (gridSize, boardSize) => {

@@ -1,4 +1,4 @@
-// src/components/GameBoard/GameBoard.js
+// components/GameBoard/GameBoard.js
 
 import React from 'react';
 import {View} from 'react-native';

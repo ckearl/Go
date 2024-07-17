@@ -1,4 +1,4 @@
-// src/hooks/useGameState.js
+// hooks/useGameState.js
 
 import {useState, useEffect} from 'react';
 import {Dimensions} from 'react-native';

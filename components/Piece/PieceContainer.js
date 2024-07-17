@@ -1,4 +1,4 @@
-// src/components/PieceContainer/PieceContainer.js
+// components/PieceContainer/PieceContainer.js
 
 import React from 'react';
 import {View} from 'react-native';

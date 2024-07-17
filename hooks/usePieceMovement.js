@@ -1,4 +1,4 @@
-// src/hooks/usePieceMovement.js
+// hooks/usePieceMovement.js
 
 const usePieceMovement = (
   pieces,

@@ -1,4 +1,4 @@
-// src/components/Board/PieceDish.js
+// components/Board/PieceDish.js
 
 import React, {useEffect, useRef} from 'react';
 import {Dimensions, View, Animated} from 'react-native';
@@ -61,13 +61,13 @@ const PieceDish = ({boardSize, pieceSize}) => {
               {
                 translateX: shineAnim.interpolate({
                   inputRange: [0, 1],
-                  outputRange: [-100, 100],
+                  outputRange: [-dishSize, dishSize],
                 }),
               },
               {
                 translateY: shineAnim.interpolate({
                   inputRange: [0, 1],
-                  outputRange: [-100, 100],
+                  outputRange: [-dishSize, dishSize],
                 }),
               },
               {rotate: '30deg'},

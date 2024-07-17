@@ -1,4 +1,4 @@
-// src/Game.js
+// Game.js
 
 import React from 'react';
 import {View, Dimensions} from 'react-native';
