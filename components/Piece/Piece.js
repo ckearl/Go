@@ -2,6 +2,8 @@
 
 import React, {useRef, useEffect} from 'react';
 import {Animated, PanResponder, Dimensions} from 'react-native';
+import createStyles from './style';
+
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
 
@@ -17,6 +19,7 @@ const Piece = ({
   pieceSize,
 }) => {
   const pan = useRef(new Animated.ValueXY()).current;
+  const styles = createStyles(pieceSize, color);
 
   useEffect(() => {
     pan.setValue({x: initialX - pieceSize / 2, y: initialY - pieceSize / 2});
@@ -104,16 +107,7 @@ const Piece = ({
     <Animated.View
       style={[
         {
-          width: pieceSize,
-          height: pieceSize,
-          backgroundColor: color,
-          borderRadius: pieceSize / 2,
-          borderColor: color === 'black' ? 'white' : 'black',
-          borderWidth: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-          position: 'absolute',
-          zIndex: 1,
+          ...styles.piece,
         },
         {
           transform: [{translateX: pan.x}, {translateY: pan.y}],

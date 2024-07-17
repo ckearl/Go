@@ -21,12 +21,14 @@ const PieceDish = ({boardSize, pieceSize}) => {
   }, []);
 
   const dishes = [];
+
   for (let i = 0; i < 2; i++) {
     const isBlack = i === 0;
     const pileCenterX = isBlack ? width * 0.75 : width * 0.25;
     const pileCenterY = height - boardSize * 0.55;
-
     const dishSize = (pileRadius + pieceSize) * 2;
+
+    const shineTravelDistance = Math.sqrt(2) * dishSize * 2;
 
     dishes.push(
       <View
@@ -52,22 +54,20 @@ const PieceDish = ({boardSize, pieceSize}) => {
         />
         <Animated.View
           style={{
-            width: '300%',
-            height: '300%',
+            width: dishSize,
+            height: dishSize,
             position: 'absolute',
-            top: 0,
-            left: 0,
             transform: [
               {
                 translateX: shineAnim.interpolate({
                   inputRange: [0, 1],
-                  outputRange: [-dishSize, dishSize],
+                  outputRange: [-shineTravelDistance, shineTravelDistance],
                 }),
               },
               {
                 translateY: shineAnim.interpolate({
                   inputRange: [0, 1],
-                  outputRange: [-dishSize, dishSize],
+                  outputRange: [-shineTravelDistance, shineTravelDistance],
                 }),
               },
               {rotate: '30deg'},

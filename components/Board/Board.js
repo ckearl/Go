@@ -1,9 +1,11 @@
 // components/Board/Board.js
-
 import React from 'react';
-import {Image, Text, View} from 'react-native';
+import {Image, View} from 'react-native';
+import createStyles from './style';
 
 const Board = ({boardSize, cellSize, children}) => {
+  const styles = createStyles(boardSize, cellSize);
+
   const renderDots = () => {
     const dots = [];
     for (let i = 0; i < 3; i++) {
@@ -19,48 +21,35 @@ const Board = ({boardSize, cellSize, children}) => {
         dots.push(
           <View
             key={`${i}-${j}`}
-            style={{
-              width: 10,
-              height: 10,
-              backgroundColor: 'black',
-              borderRadius: 5,
-              position: 'absolute',
-              left: i * 2 * cellSize + 2 * cellSize - 5,
-              top: j * 2 * cellSize + 2 * cellSize - 5,
-            }}
+            style={[
+              styles.dot,
+              {
+                left: i * 2 * cellSize + 2 * cellSize - 5,
+                top: j * 2 * cellSize + 2 * cellSize - 5,
+              },
+            ]}
           />,
         );
       }
     }
     return dots;
   };
+
   const renderLines = () => {
     const lines = [];
     for (let i = 0; i <= 8; i++) {
       // Vertical lines
       lines.push(
         <View
-          key={`v${i}`}
-          style={{
-            width: 1,
-            height: boardSize,
-            backgroundColor: 'black',
-            position: 'absolute',
-            left: i * cellSize,
-          }}
+          key={`vLine${i}`}
+          style={[styles.verticalLine, {left: i * cellSize}]}
         />,
       );
       // Horizontal lines
       lines.push(
         <View
-          key={`h${i}`}
-          style={{
-            width: boardSize,
-            height: 1,
-            backgroundColor: 'black',
-            position: 'absolute',
-            top: i * cellSize,
-          }}
+          key={`hLine${i}`}
+          style={[styles.horizontalLine, {top: i * cellSize}]}
         />,
       );
     }
@@ -68,32 +57,13 @@ const Board = ({boardSize, cellSize, children}) => {
   };
 
   return (
-    <View
-      style={{
-        width: boardSize,
-        height: boardSize,
-        backgroundColor: '#E5B068',
-        justifyContent: 'center',
-        alignItems: 'center',
-        overflow: 'hidden',
-        borderWidth: 1,
-        borderColor: 'black',
-      }}>
+    <View style={styles.board}>
       <Image
-        style={{
-          width: '100%',
-          height: '100%',
-          position: 'absolute',
-        }}
+        style={styles.boardBackground}
         source={require('../../assets/images/wood-grain.jpg')}
         resizeMode="cover"
       />
-      <View
-        style={{
-          width: boardSize,
-          height: boardSize,
-          position: 'absolute',
-        }}>
+      <View style={styles.linesContainer}>
         {renderLines()}
         {renderDots()}
       </View>

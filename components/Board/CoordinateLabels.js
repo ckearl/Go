@@ -1,7 +1,12 @@
+// components/Board/CooridnateLabels.js
+
 import {Text, View} from 'react-native';
 import React from 'react';
+import createStyles from './style';
+
 
 const createLabel = (
+  styles,
   cellSize,
   positionKey,
   i,
@@ -10,19 +15,16 @@ const createLabel = (
   staticDirection,
   staticDirectionScale,
   labelType,
-) => {
-  const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'];
-  const numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
-  return (
-    <Text
+  ) => {
+    const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'];
+    const numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+    return (
+      <Text
       key={`${positionKey}-${i}`}
       style={{
-        position: 'absolute',
+        ...styles.coordinateLabel,
         [movingDirection]: i * cellSize + cellSize / 2 - movingDirectionScale,
         [staticDirection]: staticDirectionScale,
-        color: 'black',
-        fontSize: 10,
-        zIndex: 1,
       }}>
       {labelType === 'number' ? numbers[i] : letters[i]}
     </Text>
@@ -30,14 +32,16 @@ const createLabel = (
 };
 
 const CoordinateLabels = ({cellSize, boardSize}) => {
+  const styles = createStyles(boardSize, cellSize);
   const labels = [];
   for (let i = 0; i < 10; i++) {
     // Letter Board Labels
     labels.push(
-      createLabel(cellSize, 'letter-top', i, 'left', 24, 'bottom', 4, 'letter'),
+      createLabel(styles, cellSize, 'letter-top', i, 'left', 24, 'bottom', 4, 'letter'),
     );
     labels.push(
       createLabel(
+        styles,
         cellSize,
         'letter-bottom',
         i,
@@ -51,10 +55,11 @@ const CoordinateLabels = ({cellSize, boardSize}) => {
 
     // Number Board Labels
     labels.push(
-      createLabel(cellSize, 'number-left', i, 'top', 26, 'left', -12, 'number'),
+      createLabel(styles, cellSize, 'number-left', i, 'top', 26, 'left', -12, 'number'),
     );
     labels.push(
       createLabel(
+        styles,
         cellSize,
         'number-right',
         i,
