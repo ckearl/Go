@@ -71,7 +71,7 @@ const CoordinateLabels = ({cellSize, boardSize}) => {
       ),
     );
   }
-  return <View style={{zIndex: 10000}}>{labels}</View>;
+  return <View style={{zIndex: 1}}>{labels}</View>;
 };
 
 export default CoordinateLabels;
