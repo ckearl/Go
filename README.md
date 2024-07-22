@@ -1,79 +1,21 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Go!
 
-# Getting Started
+>**Note**: This is a [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+## Introduction
 
-## Step 1: Start the Metro Server
+Welcome to Go! Go, also known as Baduk, Weiqi, and Igo, is a board game for two players. While it is a very complex game when played at a high level, it is also a simple game to learn for beginners. Go has been around for thousands of years and the rules have much remained the same. While this game is still celebrated by millions around the world, I struggled to find a good implementation of the game on the app store. Thus sparked my motivation to create a React Native implementation of the game.
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+## The Game
 
-To start Metro, run the following command from the _root_ of your React Native project:
+The game is played on a grid of black lines, with each intersection called a point. The players take turns placing stones on the points. The goal is to surround empty points, called territory, with your stones.
 
-```bash
-# using npm
-npm start
+When a stone is place, the open spaces around each of the four adjacent sides are called liberties. If a stone has no liberties, it is captured and removed from the board. A piece may not be placed on a point if it would have no liberties.
 
-# OR using Yarn
-yarn start
-```
+The game ends when both players pass their turn. To pass, a player simply says "pass" and the other player may continue to place stones. Once both players consecutively pass, the game is over and the score is calculated.
 
-## Step 2: Start your Application
+Each captured area of territory has a value of 1 point. Additionally, each captured piece adds one to the total. At the conclusion of the game, each player tabulates their score by counting the number of points in their territory and the number of stones they have captured. The player with the most points wins.
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
+## The Board
 
-### For Android
-
-```bash
-# using npm
-npm run android
-
-# OR using Yarn
-yarn android
-```
-
-### For iOS
-
-```bash
-# using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
-```
-
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
-
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
-
-## Step 3: Modifying your App
-
-Now that you have successfully run the app, let's modify it.
-
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
-
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+In traditional Go, the board is a 19x19 grid. For beginner and intermediate learners of the game, a 9x9 or 13x13 grid is recommended. In this implementation, players may choose between a 7x7, 9x9, 13x13, or 19x19 grid.
