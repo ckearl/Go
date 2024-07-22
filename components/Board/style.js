@@ -13,7 +13,7 @@ const createStyles = (boardSize, cellSize) => {
     board: {
       width: boardSize,
       height: boardSize,
-      backgroundColor: '#E5B068', // Go board color
+      backgroundColor: '#E5B068',
       justifyContent: 'center',
       alignItems: 'center',
       overflow: 'hidden',

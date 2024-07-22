@@ -8,7 +8,7 @@ const {width, height} = Dimensions.get('window');
 const useGameState = (pieceSize, boardSize) => {
   const initialPiecesState = () => {
     const initialPieces = [];
-    const pileRadius = pieceSize * 1.5; // 3 times the radius of a single piece
+    const pileRadius = pieceSize * 1.5;
 
     for (let i = 0; i < 82; i++) {
       const isBlack = i % 2 === 0;

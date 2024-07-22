@@ -1,4 +1,9 @@
 import {StyleSheet} from 'react-native';
+import {
+  horizontalScale,
+  verticalScale,
+  scaleFontSize,
+} from '../../assets/styles/scaling';
 
 const createStyles = () => {
   return StyleSheet.create({
@@ -10,15 +15,15 @@ const createStyles = () => {
     },
     button: {
       backgroundColor: '#4CAF50',
-      padding: 10,
-      margin: 10,
-      borderRadius: 5,
-      width: 200,
+      padding: horizontalScale(10),
+      margin: horizontalScale(10),
+      borderRadius: horizontalScale(5),
+      width: horizontalScale(200),
       alignItems: 'center',
     },
     buttonText: {
       color: 'white',
-      fontSize: 18,
+      fontSize: scaleFontSize(18),
     },
     overlay: {
       position: 'absolute',
@@ -34,23 +39,23 @@ const createStyles = () => {
       right: 0,
       top: 0,
       bottom: 0,
-      width: 300,
+      width: horizontalScale(300),
       backgroundColor: 'white',
-      padding: 20,
+      padding: horizontalScale(20),
       justifyContent: 'center',
       alignItems: 'center',
     },
     popoverTitle: {
-      fontSize: 20,
+      fontSize: scaleFontSize(20),
       fontWeight: 'bold',
-      marginBottom: 20,
+      marginBottom: verticalScale(20),
     },
     gridContainer: {
       flexDirection: 'row',
       flexWrap: 'wrap',
       justifyContent: 'space-between',
       width: '100%',
-      paddingHorizontal: 10,
+      paddingHorizontal: horizontalScale(10),
     },
     gridButton: {
       width: '45%',
@@ -58,12 +63,12 @@ const createStyles = () => {
       justifyContent: 'center',
       alignItems: 'center',
       backgroundColor: '#4CAF50',
-      margin: 5,
-      borderRadius: 10,
+      margin: horizontalScale(5),
+      borderRadius: horizontalScale(10),
     },
     gridButtonText: {
       color: 'white',
-      fontSize: 24,
+      fontSize: scaleFontSize(24),
       fontWeight: 'bold',
     },
   });
