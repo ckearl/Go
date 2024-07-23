@@ -2,14 +2,16 @@
 
 import React, {useState} from 'react';
 import {
-  View,
+  Animated,
+  Image,
+  StyleSheet,
   Text,
   TouchableOpacity,
-  StyleSheet,
-  Animated,
   TouchableWithoutFeedback,
+  View,
 } from 'react-native';
 import createStyles from './style';
+import BackgroundImageContainer from './BackgroundImage/BackgroundImageContainer';
 
 const MainMenu = ({navigation}) => {
   const styles = createStyles();
@@ -42,6 +44,8 @@ const MainMenu = ({navigation}) => {
 
   return (
     <View style={styles.container}>
+      <BackgroundImageContainer />
+      <Text style={styles.title}>Welcome to Go!</Text>
       <TouchableOpacity style={styles.button} onPress={showPopover}>
         <Text style={styles.buttonText}>Play Now</Text>
       </TouchableOpacity>

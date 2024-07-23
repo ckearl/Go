@@ -11,7 +11,16 @@ const createStyles = () => {
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: 'beige',
+      backgroundColor: '#1B242C',
+      zIndex: 0
+    },
+    title: {
+      fontSize: scaleFontSize(48),
+      color: 'white',
+      fontWeight: 'bold',
+      marginHorizontal: horizontalScale(60),
+      textAlign: 'center',
+      marginBottom: verticalScale(20),
     },
     button: {
       backgroundColor: '#4CAF50',
