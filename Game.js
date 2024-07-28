@@ -22,7 +22,7 @@ const Game = ({route}) => {
     extractBoardDimension(route.params?.boardDimension) || 9;
   const cellSize = boardSize / (boardDimension - 1);
   const {pieces, setPieces, boardState, setBoardState, resetGame} =
-    useGameState(pieceSize, boardSize);
+    useGameState(pieceSize, boardSize, boardDimension);
 
   const boardOffset = {
     x: (width - boardSize) / 2,
@@ -44,6 +44,7 @@ const Game = ({route}) => {
         boardSize={boardSize}
         cellSize={cellSize}
         boardOffset={boardOffset}
+        boardDimension={boardDimension}
       />
       <PieceDish boardSize={boardSize} pieceSize={pieceSize} />
       <PieceContainer

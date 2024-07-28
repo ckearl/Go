@@ -5,7 +5,7 @@ import {Dimensions} from 'react-native';
 
 const {width, height} = Dimensions.get('window');
 
-const useGameState = (pieceSize, boardSize) => {
+const useGameState = (pieceSize, boardSize, boardDimension) => {
   const initialPiecesState = () => {
     const initialPieces = [];
     const pileRadius = pieceSize * 1.5;
@@ -38,9 +38,9 @@ const useGameState = (pieceSize, boardSize) => {
 
   const [pieces, setPieces] = useState(initialPiecesState);
   const [boardState, setBoardState] = useState(
-    Array(9)
+    Array(boardDimension)
       .fill()
-      .map(() => Array(9).fill('o')),
+      .map(() => Array(boardDimension).fill('o')),
   );
 
   useEffect(() => {

@@ -3,8 +3,10 @@ import React from 'react';
 import {Image, View} from 'react-native';
 import createStyles from './style';
 
-const Board = ({boardSize, cellSize, children}) => {
+const Board = ({boardSize, cellSize, children, boardDimension}) => {
   const styles = createStyles(boardSize, cellSize);
+
+  console.log(boardDimension, 'from Board.js');
 
   const renderDots = () => {
     const dots = [];
@@ -37,7 +39,7 @@ const Board = ({boardSize, cellSize, children}) => {
 
   const renderLines = () => {
     const lines = [];
-    for (let i = 0; i <= 8; i++) {
+    for (let i = 0; i <= boardDimension - 1; i++) {
       // Vertical lines
       lines.push(
         <View
