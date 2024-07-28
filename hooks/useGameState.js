@@ -26,8 +26,6 @@ const useGameState = (pieceSize, boardSize) => {
       const x = pileCenterX + distance * Math.cos(angle);
       const y = pileCenterY + distance * Math.sin(angle);
 
-      console.log(`pileCenterY from useGameState.js: ${pileCenterY}`);
-
       initialPieces.push({
         id: `piece-${color}-${i + 1}`,
         color: color,
@@ -46,8 +44,11 @@ const useGameState = (pieceSize, boardSize) => {
   );
 
   useEffect(() => {
-    console.log('Current board state:');
-    console.log('\n', boardState.map(row => row.join(' ')).join('\n'));
+    console.log(
+      `Board state:\n${boardState
+        .map(row => row.join(' ').slice(1))
+        .join('\n')}`,
+    );
   }, [boardState]);
 
   const resetGame = () => {

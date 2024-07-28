@@ -11,10 +11,16 @@ import PieceDish from './components/Board/PieceDish';
 
 const {width, height} = Dimensions.get('window');
 const boardSize = Math.min(width, height) * 0.9;
-const cellSize = boardSize / 8;
 const pieceSize = 30;
 
-const Game = () => {
+function extractBoardDimension(stringBoardDimension) {
+  return parseInt(stringBoardDimension.split('x')[0]);
+}
+
+const Game = ({route}) => {
+  const boardDimension =
+    extractBoardDimension(route.params?.boardDimension) || 9;
+  const cellSize = boardSize / (boardDimension - 1);
   const {pieces, setPieces, boardState, setBoardState, resetGame} =
     useGameState(pieceSize, boardSize);
 

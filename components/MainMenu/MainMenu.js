@@ -3,8 +3,6 @@
 import React, {useState} from 'react';
 import {
   Animated,
-  Image,
-  StyleSheet,
   Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -37,10 +35,11 @@ const MainMenu = ({navigation}) => {
 
   const handleBoardSizeSelect = size => {
     console.log(`Selected board size: ${size}`);
+    navigation.navigate('Game', {boardDimension: size});
     hidePopover();
   };
 
-  const boardSizes = ['7x7', '9x9', '13x13', '19x19'];
+  const boardSizes = ['7x7', '9x9', '11x11', '13x13'];
 
   return (
     <View style={styles.container}>
