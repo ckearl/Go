@@ -2,40 +2,10 @@
 import React from 'react';
 import {Image, View} from 'react-native';
 import createStyles from './style';
+import BoardDots from './BoardDots';
 
 const Board = ({boardSize, cellSize, children, boardDimension}) => {
   const styles = createStyles(boardSize, cellSize);
-
-  console.log(boardDimension, 'from Board.js');
-
-  const renderDots = () => {
-    const dots = [];
-    for (let i = 0; i < 3; i++) {
-      for (let j = 0; j < 3; j++) {
-        if (
-          (i === 1 && j === 0) ||
-          (i === 0 && j === 1) ||
-          (i === 2 && j === 1) ||
-          (i === 1 && j === 2)
-        ) {
-          continue;
-        }
-        dots.push(
-          <View
-            key={`${i}-${j}`}
-            style={[
-              styles.dot,
-              {
-                left: i * 2 * cellSize + 2 * cellSize - 5,
-                top: j * 2 * cellSize + 2 * cellSize - 5,
-              },
-            ]}
-          />,
-        );
-      }
-    }
-    return dots;
-  };
 
   const renderLines = () => {
     const lines = [];
@@ -67,8 +37,8 @@ const Board = ({boardSize, cellSize, children, boardDimension}) => {
       />
       <View style={styles.linesContainer}>
         {renderLines()}
-        {renderDots()}
-      </View>
+        <BoardDots cellSize={cellSize} boardDimension={boardDimension} />
+        </View>
       {children}
     </View>
   );

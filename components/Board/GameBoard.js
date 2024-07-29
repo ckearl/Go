@@ -3,6 +3,7 @@
 import React from 'react';
 import {View} from 'react-native';
 import Board from './Board';
+import BoardDots from './BoardDots';
 import CoordinateLabels from './CoordinateLabels';
 
 const GameBoard = ({boardSize, cellSize, boardOffset, boardDimension}) => {
