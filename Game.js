@@ -1,13 +1,14 @@
 // Game.js
 
 import React from 'react';
-import {View, Dimensions} from 'react-native';
+import {Button, Dimensions, View} from 'react-native';
 import GameBoard from './components/Board/GameBoard';
 import PieceContainer from './components/Piece/PieceContainer';
 import GameControls from './components/GameControls/GameControls';
 import useGameState from './hooks/useGameState';
 import usePieceMovement from './hooks/usePieceMovement';
 import PieceDish from './components/Board/PieceDish';
+import globalStyles from './assets/styles/globalStyles';
 
 const {width, height} = Dimensions.get('window');
 const boardSize = Math.min(width, height) * 0.9;
@@ -17,7 +18,7 @@ function extractBoardDimension(stringBoardDimension) {
   return parseInt(stringBoardDimension.split('x')[0]);
 }
 
-const Game = ({route}) => {
+const Game = ({route, navigation}) => {
   const boardDimension =
     extractBoardDimension(route.params?.boardDimension) || 9;
   const cellSize = boardSize / (boardDimension - 1);
@@ -40,6 +41,15 @@ const Game = ({route}) => {
 
   return (
     <View style={{flex: 1}}>
+      <View
+        style={globalStyles.gameBackButton}>
+        <Button
+          title="Back"
+          onPress={() => {
+            navigation.navigate('MainMenu');
+          }}
+        />
+      </View>
       <GameBoard
         boardSize={boardSize}
         cellSize={cellSize}
