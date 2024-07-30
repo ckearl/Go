@@ -46,8 +46,9 @@ const createStyles = (boardSize, cellSize) => {
       position: 'absolute',
       color: 'black',
       fontSize: 10,
+      fontFamily: 'Roboto Mono',
       zIndex: 1,
-    }
+    },
   });
 };
 
