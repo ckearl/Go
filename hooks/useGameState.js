@@ -2,6 +2,11 @@
 
 import {useState, useEffect} from 'react';
 import {Dimensions} from 'react-native';
+import {
+  PILE_VERTICAL_CENTER,
+  PILE_RIGHT_POSITION,
+  PILE_LEFT_POSITION,
+} from '../constants/constants';
 
 const {width, height} = Dimensions.get('window');
 
@@ -15,8 +20,10 @@ const useGameState = (pieceSize, boardSize, boardDimension) => {
       const color = isBlack ? 'black' : 'white';
 
       // Center of the pile
-      const pileCenterX = isBlack ? width * 0.75 : width * 0.25;
-      const pileCenterY = height - boardSize * 0.35;
+      const pileCenterX = isBlack
+        ? width * PILE_LEFT_POSITION
+        : width * PILE_RIGHT_POSITION;
+      const pileCenterY = height - boardSize * PILE_VERTICAL_CENTER;
 
       // Random angle and distance within the pile
       const angle = Math.random() * 2 * Math.PI;
@@ -46,7 +53,7 @@ const useGameState = (pieceSize, boardSize, boardDimension) => {
   useEffect(() => {
     console.log(
       `Board state:\n${boardState
-        .map(row => row.join(' ').slice(1))
+        .map(row => row.join(' ').slice(0))
         .join('\n')}`,
     );
   }, [boardState]);
@@ -56,7 +63,7 @@ const useGameState = (pieceSize, boardSize, boardDimension) => {
     setBoardState(
       Array(9)
         .fill()
-        .map(() => Array(9).fill('o')),
+        .map(() => Array(boardDimension).fill('o')),
     );
   };
 

@@ -7,6 +7,7 @@ const usePieceMovement = (
   setBoardState,
   cellSize,
   boardOffset,
+  boardDimension,
 ) => {
   const updatePiecePosition = (id, x, y) => {
     setPieces(prevPieces =>
@@ -17,7 +18,12 @@ const usePieceMovement = (
     const boardX = Math.round((x - boardOffset.x) / cellSize);
     const boardY = Math.round((y - boardOffset.y) / cellSize);
 
-    if (boardX >= 0 && boardX < 9 && boardY >= 0 && boardY < 9) {
+    if (
+      boardX >= 0 &&
+      boardX < boardDimension &&
+      boardY >= 0 &&
+      boardY < boardDimension
+    ) {
       setBoardState(prevState => {
         const newState = prevState.map(row => [...row]);
         const piece = pieces.find(p => p.id === id);

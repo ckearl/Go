@@ -3,7 +3,13 @@
 import React, {useRef, useEffect} from 'react';
 import {Animated, PanResponder, Dimensions} from 'react-native';
 import createStyles from './style';
-
+import {
+  PILE_VERTICAL_CENTER,
+  PILE_RIGHT_POSITION,
+  PILE_LEFT_POSITION,
+  PIECE_ANIMATION_DAMPING,
+  PIECE_ANIMATION_STIFFNESS,
+} from '../../constants/constants';
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
 
@@ -17,6 +23,7 @@ const Piece = ({
   updatePosition,
   boardOffset,
   pieceSize,
+  boardDimension,
 }) => {
   const pan = useRef(new Animated.ValueXY()).current;
   const styles = createStyles(pieceSize, color);
@@ -41,8 +48,8 @@ const Piece = ({
   const intersections = generateIntersections();
 
   const springConfig = {
-    damping: 15,
-    stiffness: 150,
+    damping: PIECE_ANIMATION_DAMPING,
+    stiffness: PIECE_ANIMATION_STIFFNESS,
   };
 
   const snapToPosition = (x, y) => {
@@ -55,8 +62,11 @@ const Piece = ({
   };
 
   const returnToPile = () => {
-    const pileX = color === 'black' ? screenWidth * 0.75 : screenWidth * 0.25;
-    const pileY = screenHeight - boardSize * 0.35;
+    const pileX =
+      color === 'black'
+        ? screenWidth * PILE_LEFT_POSITION
+        : screenWidth * PILE_RIGHT_POSITION;
+    const pileY = screenHeight - boardSize * PILE_VERTICAL_CENTER;
 
     Animated.spring(pan, {
       toValue: {x: pileX - pieceSize / 2, y: pileY - pieceSize / 2},

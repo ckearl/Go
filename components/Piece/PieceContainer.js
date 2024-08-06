@@ -11,6 +11,7 @@ const PieceContainer = ({
   pieceSize,
   boardOffset,
   updatePosition,
+  boardDimension,
 }) => {
   return (
     <View style={{zIndex: 1}}>
@@ -26,6 +27,7 @@ const PieceContainer = ({
           updatePosition={updatePosition}
           boardOffset={boardOffset}
           pieceSize={pieceSize}
+          boardDimension={boardDimension}
         />
       ))}
     </View>

@@ -9,10 +9,10 @@ import useGameState from './hooks/useGameState';
 import usePieceMovement from './hooks/usePieceMovement';
 import PieceDish from './components/Board/PieceDish';
 import globalStyles from './assets/styles/globalStyles';
+import {BOARD_WIDTH_DIVISOR, PIECE_SIZE_MAP} from './constants/constants';
 
 const {width, height} = Dimensions.get('window');
-const boardSize = Math.min(width, height) * 0.9;
-const pieceSize = 30;
+const boardSize = Math.min(width, height) * BOARD_WIDTH_DIVISOR;
 
 function extractBoardDimension(stringBoardDimension) {
   return parseInt(stringBoardDimension.split('x')[0]);
@@ -21,6 +21,7 @@ function extractBoardDimension(stringBoardDimension) {
 const Game = ({route, navigation}) => {
   const boardDimension =
     extractBoardDimension(route.params?.boardDimension) || 9;
+  const pieceSize = PIECE_SIZE_MAP[boardDimension];
   const cellSize = boardSize / (boardDimension - 1);
   const {pieces, setPieces, boardState, setBoardState, resetGame} =
     useGameState(pieceSize, boardSize, boardDimension);
@@ -37,12 +38,12 @@ const Game = ({route, navigation}) => {
     setBoardState,
     cellSize,
     boardOffset,
+    boardDimension,
   );
 
   return (
     <View style={{flex: 1}}>
-      <View
-        style={globalStyles.gameBackButton}>
+      <View style={globalStyles.gameBackButton}>
         <Button
           title="Back"
           onPress={() => {
@@ -64,6 +65,7 @@ const Game = ({route, navigation}) => {
         pieceSize={pieceSize}
         boardOffset={boardOffset}
         updatePosition={updatePiecePosition}
+        boardDimension={boardDimension}
       />
       <GameControls resetGame={resetGame} />
     </View>

@@ -3,6 +3,11 @@
 import React, {useEffect, useRef} from 'react';
 import {Dimensions, View, Animated} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import {
+  PILE_DISH_VERTICAL_CENTER,
+  PILE_RIGHT_POSITION,
+  PILE_LEFT_POSITION,
+} from '../../constants/constants';
 
 const {width, height} = Dimensions.get('window');
 
@@ -24,9 +29,11 @@ const PieceDish = ({boardSize, pieceSize}) => {
 
   for (let i = 0; i < 2; i++) {
     const isBlack = i === 0;
-    const pileCenterX = isBlack ? width * 0.75 : width * 0.25;
-    const pileCenterY = height - boardSize * 0.55;
-    const dishSize = (pileRadius + pieceSize) * 2;
+    const pileCenterX = isBlack
+      ? width * PILE_LEFT_POSITION
+      : width * PILE_RIGHT_POSITION;
+    const pileCenterY = height - boardSize * PILE_DISH_VERTICAL_CENTER;
+    const dishSize = pileRadius * 2 + (pieceSize * 3) / 2.5;
 
     const shineTravelDistance = Math.sqrt(2) * dishSize * 2;
 

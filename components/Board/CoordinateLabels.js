@@ -3,45 +3,18 @@
 import React, {useState, useMemo, useCallback} from 'react';
 import {Dimensions, Text, View} from 'react-native';
 import createStyles from './style';
+import {
+  COORDINATE_LABEL_FONT_SIZE,
+  COORDINATE_LABEL_LETTERS,
+  COORDINATE_LABEL_NUMBERS,
+} from '../../constants/constants';
 
 const {width} = Dimensions.get('window');
-
-const TEXT_HEIGHT = 10; // Fixed height of the text
 
 const CoordinateLabels = ({cellSize, boardSize, boardDimension}) => {
   const [letterWidth, setLetterWidth] = useState(0);
 
   const styles = createStyles(boardSize, cellSize);
-  const letters = [
-    'A',
-    'B',
-    'C',
-    'D',
-    'E',
-    'F',
-    'G',
-    'H',
-    'I',
-    'J',
-    'K',
-    'L',
-    'M',
-  ];
-  const numbers = [
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9',
-    '10',
-    '11',
-    '12',
-    '13',
-  ];
 
   const coordinateGap = useMemo(() => {
     if (letterWidth > 0) {
@@ -72,7 +45,7 @@ const CoordinateLabels = ({cellSize, boardSize, boardDimension}) => {
           bottom: 4,
           zIndex: 1,
         },
-        text: letters[i],
+        text: COORDINATE_LABEL_LETTERS[i],
       });
 
       bottomLabels.push({
@@ -86,7 +59,7 @@ const CoordinateLabels = ({cellSize, boardSize, boardDimension}) => {
             coordinateGap,
           top: boardSize + 4,
         },
-        text: letters[i],
+        text: COORDINATE_LABEL_LETTERS[i],
       });
 
       leftLabels.push({
@@ -96,12 +69,12 @@ const CoordinateLabels = ({cellSize, boardSize, boardDimension}) => {
           top:
             i * cellSize +
             cellSize / 2 -
-            TEXT_HEIGHT / 2 -
+            COORDINATE_LABEL_FONT_SIZE / 2 -
             coordinateGap +
-            TEXT_HEIGHT, // Adjust position
+            COORDINATE_LABEL_FONT_SIZE,
           left: -12,
         },
-        text: numbers[i],
+        text: COORDINATE_LABEL_NUMBERS[i],
       });
 
       rightLabels.push({
@@ -111,12 +84,12 @@ const CoordinateLabels = ({cellSize, boardSize, boardDimension}) => {
           top:
             i * cellSize +
             cellSize / 2 -
-            TEXT_HEIGHT / 2 -
+            COORDINATE_LABEL_FONT_SIZE / 2 -
             coordinateGap +
-            TEXT_HEIGHT, // Adjust position
+            COORDINATE_LABEL_FONT_SIZE,
           right: -12,
         },
-        text: numbers[i],
+        text: COORDINATE_LABEL_NUMBERS[i],
       });
     }
 
@@ -127,8 +100,8 @@ const CoordinateLabels = ({cellSize, boardSize, boardDimension}) => {
     boardDimension,
     boardSize,
     cellSize,
-    letters,
-    numbers,
+    COORDINATE_LABEL_LETTERS,
+    COORDINATE_LABEL_NUMBERS,
     styles.coordinateLabel,
   ]);
 
