@@ -1,6 +1,6 @@
 // hooks/useGameState.js
 
-import {useState, useCallback} from 'react';
+import {useState, useCallback, useEffect} from 'react';
 import {Dimensions} from 'react-native';
 import {
   PILE_VERTICAL_CENTER,
@@ -55,6 +55,7 @@ const useGameState = (pieceSize, boardSize, boardDimension) => {
       const liberties = {
         black: [],
         white: [],
+        both: [],
       };
       for (let i = 0; i < boardDimension; i++) {
         for (let j = 0; j < boardDimension; j++) {
@@ -83,31 +84,105 @@ const useGameState = (pieceSize, boardSize, boardDimension) => {
           }
         }
       }
+
+      // Check for intersections with both black and white liberties
+      liberties.black.forEach(blackLiberty => {
+        liberties.white.forEach(whiteLiberty => {
+          if (
+            blackLiberty[0] === whiteLiberty[0] &&
+            blackLiberty[1] === whiteLiberty[1]
+          ) {
+            liberties.both.push(blackLiberty);
+          }
+        });
+      });
+
       return liberties;
     },
     [boardDimension],
   );
 
-
   const updateBoardState = useCallback(
     newBoardState => {
       const liberties = checkForLiberties(newBoardState);
-      
+
+      // First, apply black liberties
       liberties.black.forEach(([i, j]) => {
         newBoardState[i][j] = 'b';
       });
+
+      // Apply white liberties
       liberties.white.forEach(([i, j]) => {
         newBoardState[i][j] = 'w';
       });
-      setBoardState(newBoardState);
+
+      // Apply both liberties
+      liberties.both.forEach(([i, j]) => {
+        newBoardState[i][j] = 's';
+      });
+
+      // Check for captured pieces and update the board state
+      const piecesToRemoveCoords = piecesToRemove();
+      piecesToRemoveCoords.forEach(([i, j]) => {
+        newBoardState[i][j] = '-';
+      });
+
+      // Set the final board state after capturing pieces
+      setBoardState([...newBoardState]);
+
       console.log(
         `Board state:\n${newBoardState
           .map(row => row.join(' ').slice(0))
           .join('\n')}`,
       );
     },
-    [checkForLiberties],
+    [checkForLiberties, piecesToRemove],
   );
+
+  // if any grouping of the same color of pieces is surrounded by the other color, meaning that group has no liberties. this is a function to return an array of the coordinates of the pieces that have no liberties
+  const piecesToRemove = useCallback(() => {
+    const piecesToRemoveCoords = [];
+    const boardStateCopy = boardState.map(row => [...row]);
+
+    for (let i = 0; i < boardDimension; i++) {
+      for (let j = 0; j < boardDimension; j++) {
+        if (boardStateCopy[i][j] === 'b' || boardStateCopy[i][j] === 'w') {
+          const color = boardStateCopy[i][j];
+          const piecesGroup = [];
+          const stack = [[i, j]];
+          let hasLiberty = false;
+
+          while (stack.length > 0) {
+            const [x, y] = stack.pop();
+            if (
+              x >= 0 &&
+              x < boardDimension &&
+              y >= 0 &&
+              y < boardDimension &&
+              (boardStateCopy[x][y] === color || boardStateCopy[x][y] === '-')
+            ) {
+              if (boardStateCopy[x][y] === '-') {
+                hasLiberty = true;
+              } else {
+                piecesGroup.push([x, y]);
+                boardStateCopy[x][y] = 'x';
+                stack.push([x - 1, y]);
+                stack.push([x + 1, y]);
+                stack.push([x, y - 1]);
+                stack.push([x, y + 1]);
+              }
+            }
+          }
+
+          if (!hasLiberty) {
+            piecesToRemoveCoords.push(...piecesGroup);
+          }
+        }
+      }
+    }
+
+    return piecesToRemoveCoords;
+  });
 
   const resetGame = () => {
     setPieces(initialPiecesState());
