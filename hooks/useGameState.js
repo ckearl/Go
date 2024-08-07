@@ -1,6 +1,6 @@
 // hooks/useGameState.js
 
-import {useState, useEffect} from 'react';
+import {useState, useCallback} from 'react';
 import {Dimensions} from 'react-native';
 import {
   PILE_VERTICAL_CENTER,
@@ -47,27 +47,83 @@ const useGameState = (pieceSize, boardSize, boardDimension) => {
   const [boardState, setBoardState] = useState(
     Array(boardDimension)
       .fill()
-      .map(() => Array(boardDimension).fill('o')),
+      .map(() => Array(boardDimension).fill('-')),
   );
 
-  useEffect(() => {
-    console.log(
-      `Board state:\n${boardState
-        .map(row => row.join(' ').slice(0))
-        .join('\n')}`,
-    );
-  }, [boardState]);
+  const checkForLiberties = useCallback(
+    currentBoardState => {
+      const liberties = {
+        black: [],
+        white: [],
+      };
+      for (let i = 0; i < boardDimension; i++) {
+        for (let j = 0; j < boardDimension; j++) {
+          if (currentBoardState[i][j] === '-') {
+            const adjacentPieces = [
+              [i - 1, j],
+              [i + 1, j],
+              [i, j - 1],
+              [i, j + 1],
+            ];
+            adjacentPieces.forEach(([x, y]) => {
+              if (
+                x >= 0 &&
+                x < boardDimension &&
+                y >= 0 &&
+                y < boardDimension
+              ) {
+                const adjacentPiece = currentBoardState[x][y];
+                if (adjacentPiece === 'B') {
+                  liberties.black.push([i, j]);
+                } else if (adjacentPiece === 'W') {
+                  liberties.white.push([i, j]);
+                }
+              }
+            });
+          }
+        }
+      }
+      return liberties;
+    },
+    [boardDimension],
+  );
+
+
+  const updateBoardState = useCallback(
+    newBoardState => {
+      const liberties = checkForLiberties(newBoardState);
+      
+      liberties.black.forEach(([i, j]) => {
+        newBoardState[i][j] = 'b';
+      });
+      liberties.white.forEach(([i, j]) => {
+        newBoardState[i][j] = 'w';
+      });
+      setBoardState(newBoardState);
+      console.log(
+        `Board state:\n${newBoardState
+          .map(row => row.join(' ').slice(0))
+          .join('\n')}`,
+      );
+    },
+    [checkForLiberties],
+  );
 
   const resetGame = () => {
-    setPieces(initialPiecesState);
-    setBoardState(
-      Array(9)
-        .fill()
-        .map(() => Array(boardDimension).fill('o')),
-    );
+    setPieces(initialPiecesState());
+    const initialBoardState = Array(boardDimension)
+      .fill()
+      .map(() => Array(boardDimension).fill('-'));
+    updateBoardState(initialBoardState);
   };
 
-  return {pieces, setPieces, boardState, setBoardState, resetGame};
+  return {
+    pieces,
+    setPieces,
+    boardState,
+    updateBoardState,
+    resetGame,
+  };
 };
 
 export default useGameState;

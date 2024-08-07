@@ -4,7 +4,7 @@ const usePieceMovement = (
   pieces,
   setPieces,
   boardState,
-  setBoardState,
+  updateBoardState,
   cellSize,
   boardOffset,
   boardDimension,
@@ -17,19 +17,17 @@ const usePieceMovement = (
     // Check if the piece is on the board
     const boardX = Math.round((x - boardOffset.x) / cellSize);
     const boardY = Math.round((y - boardOffset.y) / cellSize);
-
+    
     if (
       boardX >= 0 &&
       boardX < boardDimension &&
       boardY >= 0 &&
       boardY < boardDimension
     ) {
-      setBoardState(prevState => {
-        const newState = prevState.map(row => [...row]);
-        const piece = pieces.find(p => p.id === id);
-        newState[boardY][boardX] = piece.color === 'black' ? 'b' : 'w';
-        return newState;
-      });
+      const newBoardState = boardState.map(row => [...row]);
+      const piece = pieces.find(p => p.id === id);
+      newBoardState[boardY][boardX] = piece.color === 'black' ? 'B' : 'W';
+      updateBoardState(newBoardState);
     }
   };
 

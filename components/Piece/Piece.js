@@ -34,14 +34,16 @@ const Piece = ({
 
   const generateIntersections = () => {
     const intersections = [];
-    for (let i = 0; i < 9; i++) {
-      for (let j = 0; j < 9; j++) {
+
+    for (let i = 0; i < boardDimension; i++) {
+      for (let j = 0; j < boardDimension; j++) {
         intersections.push({
           x: i * cellSize + boardOffset.x,
           y: j * cellSize + boardOffset.y,
         });
       }
     }
+
     return intersections;
   };
 
@@ -58,6 +60,7 @@ const Piece = ({
       useNativeDriver: true,
       ...springConfig,
     }).start();
+
     updatePosition(id, x, y);
   };
 
@@ -66,6 +69,7 @@ const Piece = ({
       color === 'black'
         ? screenWidth * PILE_LEFT_POSITION
         : screenWidth * PILE_RIGHT_POSITION;
+
     const pileY = screenHeight - boardSize * PILE_VERTICAL_CENTER;
 
     Animated.spring(pan, {
@@ -73,11 +77,13 @@ const Piece = ({
       useNativeDriver: true,
       ...springConfig,
     }).start();
+
     updatePosition(id, pileX, pileY);
   };
 
   const panResponder = PanResponder.create({
     onMoveShouldSetPanResponder: () => true,
+
     onPanResponderGrant: () => {
       pan.setOffset({
         x: pan.x._value,
@@ -85,9 +91,11 @@ const Piece = ({
       });
       pan.setValue({x: 0, y: 0});
     },
+
     onPanResponderMove: Animated.event([null, {dx: pan.x, dy: pan.y}], {
       useNativeDriver: false,
     }),
+
     onPanResponderRelease: (_, gesture) => {
       pan.flattenOffset();
       const pieceX = gesture.moveX;
