@@ -106,23 +106,29 @@ const useGameState = (pieceSize, boardSize, boardDimension) => {
     newBoardState => {
       const liberties = checkForLiberties(newBoardState);
 
-      // First, apply black liberties
+      // First, mark shared liberties
+      liberties.both.forEach(([i, j]) => {
+        if (newBoardState[i][j] === '-') {
+          newBoardState[i][j] = 's';
+        }
+      });
+
+      // Then, apply black liberties
       liberties.black.forEach(([i, j]) => {
-        newBoardState[i][j] = 'b';
+        if (newBoardState[i][j] === '-') {
+          newBoardState[i][j] = 'b';
+        }
       });
 
       // Apply white liberties
       liberties.white.forEach(([i, j]) => {
-        newBoardState[i][j] = 'w';
-      });
-
-      // Apply both liberties
-      liberties.both.forEach(([i, j]) => {
-        newBoardState[i][j] = 's';
+        if (newBoardState[i][j] === '-') {
+          newBoardState[i][j] = 'w';
+        }
       });
 
       // Check for captured pieces and update the board state
-      const piecesToRemoveCoords = piecesToRemove();
+      const piecesToRemoveCoords = piecesToRemove(newBoardState);
       piecesToRemoveCoords.forEach(([i, j]) => {
         newBoardState[i][j] = '-';
       });
@@ -140,49 +146,61 @@ const useGameState = (pieceSize, boardSize, boardDimension) => {
   );
 
   // if any grouping of the same color of pieces is surrounded by the other color, meaning that group has no liberties. this is a function to return an array of the coordinates of the pieces that have no liberties
-  const piecesToRemove = useCallback(() => {
-    const piecesToRemoveCoords = [];
-    const boardStateCopy = boardState.map(row => [...row]);
+  const piecesToRemove = useCallback(
+    currentBoardState => {
+      const piecesToRemoveCoords = [];
+      const boardStateCopy = currentBoardState.map(row => [...row]);
 
-    for (let i = 0; i < boardDimension; i++) {
-      for (let j = 0; j < boardDimension; j++) {
-        if (boardStateCopy[i][j] === 'b' || boardStateCopy[i][j] === 'w') {
-          const color = boardStateCopy[i][j];
-          const piecesGroup = [];
-          const stack = [[i, j]];
-          let hasLiberty = false;
+      for (let i = 0; i < boardDimension; i++) {
+        for (let j = 0; j < boardDimension; j++) {
+          if (boardStateCopy[i][j] === 'B' || boardStateCopy[i][j] === 'W') {
+            const color = boardStateCopy[i][j];
+            const piecesGroup = [];
+            const stack = [[i, j]];
+            let hasLiberty = false;
 
-          while (stack.length > 0) {
-            const [x, y] = stack.pop();
-            if (
-              x >= 0 &&
-              x < boardDimension &&
-              y >= 0 &&
-              y < boardDimension &&
-              (boardStateCopy[x][y] === color || boardStateCopy[x][y] === '-')
-            ) {
-              if (boardStateCopy[x][y] === '-') {
-                hasLiberty = true;
-              } else {
-                piecesGroup.push([x, y]);
-                boardStateCopy[x][y] = 'x';
-                stack.push([x - 1, y]);
-                stack.push([x + 1, y]);
-                stack.push([x, y - 1]);
-                stack.push([x, y + 1]);
+            while (stack.length > 0) {
+              const [x, y] = stack.pop();
+              if (
+                x >= 0 &&
+                x < boardDimension &&
+                y >= 0 &&
+                y < boardDimension &&
+                (boardStateCopy[x][y] === color ||
+                  boardStateCopy[x][y] === '-' ||
+                  boardStateCopy[x][y] === 'b' ||
+                  boardStateCopy[x][y] === 'w' ||
+                  boardStateCopy[x][y] === 's')
+              ) {
+                if (
+                  boardStateCopy[x][y] === '-' ||
+                  boardStateCopy[x][y] === 'b' ||
+                  boardStateCopy[x][y] === 'w' ||
+                  boardStateCopy[x][y] === 's'
+                ) {
+                  hasLiberty = true;
+                } else {
+                  piecesGroup.push([x, y]);
+                  boardStateCopy[x][y] = 'x';
+                  stack.push([x - 1, y]);
+                  stack.push([x + 1, y]);
+                  stack.push([x, y - 1]);
+                  stack.push([x, y + 1]);
+                }
               }
             }
-          }
 
-          if (!hasLiberty) {
-            piecesToRemoveCoords.push(...piecesGroup);
+            if (!hasLiberty) {
+              piecesToRemoveCoords.push(...piecesGroup);
+            }
           }
         }
       }
-    }
 
-    return piecesToRemoveCoords;
-  });
+      return piecesToRemoveCoords;
+    },
+    [boardDimension],
+  );
 
   const resetGame = () => {
     setPieces(initialPiecesState());
