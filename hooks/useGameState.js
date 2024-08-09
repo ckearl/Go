@@ -106,34 +106,33 @@ const useGameState = (pieceSize, boardSize, boardDimension) => {
     newBoardState => {
       const liberties = checkForLiberties(newBoardState);
 
-      // First, mark shared liberties
-      liberties.both.forEach(([i, j]) => {
-        if (newBoardState[i][j] === '-') {
-          newBoardState[i][j] = 's';
-        }
-      });
-
-      // Then, apply black liberties
+      // apply black liberties
       liberties.black.forEach(([i, j]) => {
         if (newBoardState[i][j] === '-') {
           newBoardState[i][j] = 'b';
         }
       });
-
-      // Apply white liberties
+      
+      // apply white liberties
       liberties.white.forEach(([i, j]) => {
         if (newBoardState[i][j] === '-') {
           newBoardState[i][j] = 'w';
         }
       });
 
-      // Check for captured pieces and update the board state
+      // apply cases for both
+      liberties.both.forEach(([i, j]) => {
+        if (newBoardState[i][j] === '-') {
+          newBoardState[i][j] = 's';
+        }
+      });
+
+      // check for captured pieces and update the board state
       const piecesToRemoveCoords = piecesToRemove(newBoardState);
       piecesToRemoveCoords.forEach(([i, j]) => {
         newBoardState[i][j] = '-';
       });
 
-      // Set the final board state after capturing pieces
       setBoardState([...newBoardState]);
 
       console.log(
