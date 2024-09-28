@@ -5,6 +5,8 @@ import createStyles from './style';
 import BoardDots from './BoardDots';
 import BoardLines from './BoardLines';
 
+// keep the streak
+
 const Board = ({boardSize, cellSize, children, boardDimension}) => {
   const styles = createStyles(boardSize, cellSize);
 
